@@ -25,3 +25,5 @@ def load_gcp(file_path = 'gcp.json'):
     with open('gcp.json', 'r') as f:
         data = json.load(f)
         print()
+
+
