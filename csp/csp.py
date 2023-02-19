@@ -7,7 +7,7 @@ class Order(Enum):
     MRV_Degree = 2
 
 class Inference(Enum):
-    No = 0
+    Default = 0
     Forward = 1
     Arc_3 = 2
     
@@ -25,16 +25,10 @@ class CSP:
                 if (variable_value == self.assignment[neighbor]):
                     return False
         return True
+    
+    def is_complete(self):
+        return len(self.assignment.keys()) == (self.num_variables)
 
     @abstractmethod
     def get_neighbor_variables(self, variable):
-        pass
-
-    def select_unassigned_variable(self):
-        pass
-
-    def inference(self):
-        pass
-
-    def backtrack(self):
         pass

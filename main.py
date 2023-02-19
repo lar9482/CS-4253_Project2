@@ -12,8 +12,12 @@ def test_mcp():
 
     mcp_csp.assignment[0] = Color.B
     mcp_csp.assignment[1] = Color.R
+    mcp_csp.assignment[2] = Color.G
     print(mcp_csp.constraint_consistent(2, Color.B))
     print(mcp_csp.constraint_consistent(2, Color.G))
+    print(mcp_csp.is_complete())
+
+    
 
 
 def test_sudoku():
@@ -26,13 +30,14 @@ def test_sudoku():
     test = sudoku_csp.get_neighbor_variables((0, 0))
     print(sudoku_csp.constraint_consistent((0, 0), 7))
 
+    print(sudoku_csp.is_complete())
 
     print()
 
 
 def main():
-    # test_mcp()
-    test_sudoku()
+    test_mcp()
+    # test_sudoku()
     print()
     
 

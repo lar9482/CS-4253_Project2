@@ -6,21 +6,21 @@ class sudoku_csp(CSP):
         self.block_size = int(math.sqrt(len(board)))
         (assignment, domain) = self.__initial_assignment_domain(board)
 
-        super().__init__(int(self.block_size ** 2), assignment, domain)
+        super().__init__(int(len(board) ** 2), assignment, domain)
 
     def __initial_assignment_domain(self, board):
         initial_assignments = {}
         initial_domain = {}
 
         #Scanning through all of the rows and columns for the board
-        for row in range(0, int(self.block_size ** 2)):
-            for col in range(0, int(self.block_size ** 2)):
+        for row in range(0, len(board)):
+            for col in range(0, len(board)):
 
                 #A zero indicates an unassigned variable initially
                 #Place it into the 'domains'
                 if (board[row][col] == 0):
                     initial_domain[(row, col)] = []
-                    for domain in range(1, int(self.block_size ** 2)+1):
+                    for domain in range(1, len(board)+1):
                         initial_domain[(row, col)].append(domain)
 
                 #Else, place the variable into the assignments
@@ -58,4 +58,3 @@ class sudoku_csp(CSP):
                 neighbor_variables.append((regionRow, regionCol))
 
         return neighbor_variables
-

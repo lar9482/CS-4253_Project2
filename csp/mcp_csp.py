@@ -19,6 +19,8 @@ class mcp_csp(CSP):
             initial_domain[int(variable)] = [Color.R, Color.G, Color.B]
             
         return (data['num_points'], initial_assignments, initial_domain)
+    
+    
 
     def get_neighbor_variables(self, variable):
         neighbor_variables = []
