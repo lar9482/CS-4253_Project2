@@ -3,6 +3,7 @@ import random
 from utils.gen_gcp import draw, gen
 from utils.sudoku_generator import make_board
 from csp.mcp_csp import mcp_csp
+from csp.sudoku_csp import sudoku_csp
 
 #This function is the starter function from 'gcp_csp', 
 # which will generate a map color problem
@@ -58,6 +59,5 @@ def load_mcp(file_path = 'gcp.json'):
 def load_sudoku(file_path = 'sudoku.json'):
     with open('sudoku.json', 'r') as f:
         board = json.load(f)
-        print()
-
+        return sudoku_csp(board)
 
