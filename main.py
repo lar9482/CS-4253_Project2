@@ -17,14 +17,20 @@ def test_mcp():
 
 
 def test_sudoku():
-    gen_sudoku(50, 3)
+    block_size = 3
+    gen_sudoku(0, block_size)
     sudoku_csp = load_sudoku()
+    # for i in range(0, block_size**2):
+    #     sudoku_csp.get_neighbor_variables((i, i))
+
+    test = sudoku_csp.get_neighbor_variables((0, 0))
+
     print()
 
 
 def main():
-    test_mcp()
-    # test_sudoku()
+    # test_mcp()
+    test_sudoku()
     print()
     
 
