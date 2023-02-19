@@ -16,7 +16,6 @@ class mcp_csp(CSP):
         initial_assignments = {}
         initial_domain = {}
         for variable in data['points']:
-            initial_assignments[int(variable)] = {}
             initial_domain[int(variable)] = {Color.R, Color.G, Color.B}
             
         return (data['num_points'], initial_assignments, initial_domain)
