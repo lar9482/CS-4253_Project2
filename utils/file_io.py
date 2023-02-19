@@ -1,7 +1,9 @@
 import json
 from utils.gen_gcp import draw, gen
-from csp.gcp_csp import gcp_csp
+from csp.mcp_csp import mcp_csp
 
+#This function is the starter function from 'gcp_csp', 
+# which will generate a map color problem
 def gen_gcp(num_points = 10, file_path = 'gcp.json'):
     print("Generating a planar graph with {} points...".format(num_points))
     (x, lines) = gen(num_points=num_points)
@@ -25,6 +27,6 @@ with open('{}', r) as f:
 def load_gcp(file_path = 'gcp.json'):
     with open('gcp.json', 'r') as f:
         data = json.load(f)
-        return gcp_csp(data)
+        return mcp_csp(data)
 
 

@@ -6,7 +6,7 @@ class Color(Enum):
     G = 2
     B = 3
 
-class gcp_csp(CSP):
+class mcp_csp(CSP):
     def __init__(self, data):
         (num_variable, assignment, domain) = self.__initial_num_assignment_domain(data)
         self.edges = data['edges']
