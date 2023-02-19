@@ -1,5 +1,6 @@
 import json
 from utils.gen_gcp import draw, gen
+from csp.gcp_csp import gcp_csp
 
 def gen_gcp(num_points = 10, file_path = 'gcp.json'):
     print("Generating a planar graph with {} points...".format(num_points))
@@ -24,6 +25,6 @@ with open('{}', r) as f:
 def load_gcp(file_path = 'gcp.json'):
     with open('gcp.json', 'r') as f:
         data = json.load(f)
-        print()
+        return gcp_csp(data)
 
 
