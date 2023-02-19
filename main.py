@@ -18,12 +18,14 @@ def test_mcp():
 
 def test_sudoku():
     block_size = 3
-    gen_sudoku(0, block_size)
+    # gen_sudoku(0, block_size)
     sudoku_csp = load_sudoku()
     # for i in range(0, block_size**2):
     #     sudoku_csp.get_neighbor_variables((i, i))
 
     test = sudoku_csp.get_neighbor_variables((0, 0))
+    print(sudoku_csp.constraint_consistent((0, 0), 7))
+
 
     print()
 
