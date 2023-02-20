@@ -7,7 +7,7 @@ def backtrack(CSP = mcp_csp, Order_Method = Random_Method, Inference_Method = de
         return CSP
     
     variable = Order_Method(CSP)
-    print(variable)
+    print('Variable: %s' % str(variable))
     for domain_value in CSP.domain[variable]:
         if CSP.constraint_consistent(variable, domain_value):
             #Add {var = value} to assignment
