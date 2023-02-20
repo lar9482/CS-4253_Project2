@@ -1,7 +1,7 @@
 import json
 from utils.file_io import gen_mcp, load_mcp, gen_sudoku, load_sudoku
 from csp.mcp_csp import mcp_csp, Color
-from order_method import random_method
+from order_method import Random_Method
 from backtrack import backtrack
 
 def test_mcp():

@@ -1,9 +1,9 @@
 import random
 
-def random_method(CSP):
+def Random_Method(CSP):
     return (random.choice(list(CSP.domain.keys())))
 
-def MRV_Method_(CSP):
+def MRV_Method(CSP):
     print()
 
 

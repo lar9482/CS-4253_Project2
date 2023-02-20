@@ -1,8 +1,8 @@
 from csp.mcp_csp import mcp_csp
-from order_method import random_method
+from order_method import Random_Method
 from inference_method import default_method
 
-def backtrack(CSP = mcp_csp, Order_Method = random_method, Inference_Method = default_method):
+def backtrack(CSP = mcp_csp, Order_Method = Random_Method, Inference_Method = default_method):
     if CSP.is_complete():
         return CSP
     
@@ -29,7 +29,7 @@ def backtrack(CSP = mcp_csp, Order_Method = random_method, Inference_Method = de
                 CSP.domain = previous_domains
 
             # Remove {var = value} from assignment
-            CSP.domain[variable] = curr_var_domain
-            CSP.assignment.pop(variable)
+            CSP.domain[variable] = curr_var_domain #Adding 'variable' back to the domain
+            CSP.assignment.pop(variable) # Removing 'variable' from assignment
 
     return "failure"
