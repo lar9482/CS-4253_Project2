@@ -21,7 +21,7 @@ class CSP:
         neighbor_variables = self.get_neighbor_variables(variable)
 
         for neighbor in neighbor_variables:
-            if (self.assignment[neighbor] is not None):
+            if (neighbor in self.assignment):
                 if (variable_value == self.assignment[neighbor]):
                     return False
         return True

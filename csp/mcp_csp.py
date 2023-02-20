@@ -5,6 +5,7 @@ class Color(Enum):
     R = 1
     G = 2
     B = 3
+    Y = 4
 
 class mcp_csp(CSP):
     def __init__(self, data):
@@ -16,7 +17,7 @@ class mcp_csp(CSP):
         initial_assignments = {}
         initial_domain = {}
         for variable in data['points']:
-            initial_domain[int(variable)] = [Color.R, Color.G, Color.B]
+            initial_domain[int(variable)] = [Color.R, Color.G, Color.B, Color.Y]
             
         return (data['num_points'], initial_assignments, initial_domain)
     

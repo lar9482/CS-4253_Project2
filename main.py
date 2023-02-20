@@ -1,37 +1,23 @@
 import json
 from utils.file_io import gen_mcp, load_mcp, gen_sudoku, load_sudoku
 from csp.mcp_csp import mcp_csp, Color
-
+from order_method import random_method
+from backtrack import backtrack
 
 def test_mcp():
-    # gen_gcp(3)
+    gen_mcp(15)
     mcp_csp = load_mcp()
-    print(mcp_csp.get_neighbor_variables(0))
-    print(mcp_csp.get_neighbor_variables(1))
-    print(mcp_csp.get_neighbor_variables(2))
 
-    mcp_csp.assignment[0] = Color.B
-    mcp_csp.assignment[1] = Color.R
-    mcp_csp.assignment[2] = Color.G
-    print(mcp_csp.constraint_consistent(2, Color.B))
-    print(mcp_csp.constraint_consistent(2, Color.G))
-    print(mcp_csp.is_complete())
-
-    
+    test = backtrack(mcp_csp)
+    print()
 
 
 def test_sudoku():
     block_size = 3
-    # gen_sudoku(0, block_size)
+    # gen_sudoku(25, block_size)
     sudoku_csp = load_sudoku()
-    # for i in range(0, block_size**2):
-    #     sudoku_csp.get_neighbor_variables((i, i))
 
-    test = sudoku_csp.get_neighbor_variables((0, 0))
-    print(sudoku_csp.constraint_consistent((0, 0), 7))
-
-    print(sudoku_csp.is_complete())
-
+    print(random_method(sudoku_csp))
     print()
 
 
