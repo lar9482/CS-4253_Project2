@@ -1,7 +1,19 @@
 import random
+import sys
 
 def calculate_MRVs(CSP):
-    print()
+    min_domain_length = sys.maxsize
+    min_variables = []
+    for variable in CSP.domain.keys():
+        if (len(CSP.domain[variable]) < min_domain_length):
+            min_domain_length = len(CSP.domain[variable])
+            min_variables.clear()
+
+        if (len(CSP.domain[variable]) == min_domain_length):
+            min_variables.append(variable)
+    
+    return min_variables
+
 
 def Random_Method(CSP):
 
@@ -9,7 +21,7 @@ def Random_Method(CSP):
     return (random.choice(list(CSP.domain.keys())))
 
 def MRV_Method(CSP):
-    print()
+    return random.choice(calculate_MRVs(CSP))
 
 
 def MRV_Degree_Method(CSP):

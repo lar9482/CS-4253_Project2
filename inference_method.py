@@ -22,7 +22,7 @@ def forward_method(CSP, variable):
     for neighbor_variable in CSP.get_neighbor_variables(variable):
 
         #If the variable value is present in the neighbor, then remove it
-        if (variable_value in domain[neighbor_variable]):
+        if (neighbor_variable in domain.keys() and variable_value in domain[neighbor_variable]):
             domain[neighbor_variable].remove(variable_value)
 
             #An empty domain indicates a failure
