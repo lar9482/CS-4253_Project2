@@ -42,14 +42,14 @@ def gen_sudoku(num_missing = 50, block_size = 3, output_file = 'sudoku.json'):
     with open(output_file, 'w') as f:
         f.write(json.dumps(board))
 
-    print("""Board written to '{0}'.
+#     print("""Board written to '{0}'.
 
-To read the file with Python, use the code:
+# To read the file with Python, use the code:
 
-import json
-with open('{0}', 'r') as f:
-    board = json.load(f)
-""".format(output_file))
+# import json
+# with open('{0}', 'r') as f:
+#     board = json.load(f)
+# """.format(output_file))
 
 def load_mcp(file_path = 'gcp.json'):
     with open('gcp.json', 'r') as f:
@@ -59,5 +59,10 @@ def load_mcp(file_path = 'gcp.json'):
 def load_sudoku(file_path = 'sudoku.json'):
     with open('sudoku.json', 'r') as f:
         board = json.load(f)
+        for row in range(0, len(board)):
+            for col in range(0, len(board)):
+                print(board[row][col], end=" ")
+            print()
+        print()
         return sudoku_csp(board)
 

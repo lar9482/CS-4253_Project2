@@ -7,10 +7,10 @@ from backtrack import backtrack
 
 def test_mcp():
     size = 100
-    gen_mcp(size)
+    # gen_mcp(size)
     mcp_csp = load_mcp()
 
-    test = backtrack(mcp_csp, MRV_Method, forward_method)
+    test = backtrack(mcp_csp, MRV_Degree_Method, forward_method)
 
     for var in range(0, size):
         print(test.constraint_consistent(var, test.assignment[var]))
@@ -18,10 +18,11 @@ def test_mcp():
 
 
 def test_sudoku():
-    block_size = 3
-    gen_sudoku(50, block_size)
+    block_size = 4
+    gen_sudoku(250, block_size)
     sudoku_csp = load_sudoku()
 
+    
     result = backtrack(sudoku_csp, MRV_Method, forward_method)
     for row in range(0, block_size ** 2):
         for col in range(0, block_size ** 2):
@@ -31,8 +32,8 @@ def test_sudoku():
 
 
 def main():
-    # test_mcp()
-    test_sudoku()
+    test_mcp()
+    # test_sudoku()
     print()
     
 
