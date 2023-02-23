@@ -28,12 +28,13 @@ def MRV_Degree_Method(CSP):
 
     MRVs = calculate_MRVs(CSP)
     highestDegree = -sys.maxsize - 1
-    highestDegreeVariable = MRVs[0]
+    highestDegreeVariables = []
 
     for variable in MRVs:
         num_neighbors = len(CSP.get_neighbor_variables(variable))
         if (num_neighbors > highestDegree):
             highestDegree = num_neighbors
-            highestDegreeVariable = variable
+            highestDegreeVariables.clear()
+        
 
-    return highestDegreeVariable
+    return highestDegreeVariables

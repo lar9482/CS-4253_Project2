@@ -1,3 +1,6 @@
+from queue import Queue
+import sys
+
 def copy_domain(domain):
     copy_domain = {}
 
@@ -33,4 +36,44 @@ def forward_method(CSP, variable):
 
 def ac3_method(CSP, variable):
 
-    print()
+    #Get a deep copy of the CSP's domain
+    domain = copy_domain(CSP.domain)
+
+    #Calculate initial arcs
+    #Get arcs between the inputted variables and its unassigned variables
+    queue = Queue(maxsize=sys.maxsize)
+    for neighbor_variable in CSP.get_neighbor_variables(variable):
+        if (neighbor_variable in domain.keys()):
+            queue.put((neighbor_variable, variable))
+    
+    while (True):
+        
+        if (queue.empty()):
+            break
+
+        (X_i, X_j) = queue.get()
+
+        if revise(CSP, X_i, X_j, variable, domain):
+            if (len(domain[X_i]) == 0):
+                return "failure"
+            
+            for X_k in CSP.get_neighbor_variables(X_i):
+                if (X_k != X_j and X_k in domain.keys()):
+                    queue.put((X_k, X_i))
+
+    return domain
+
+def revise(CSP, X_i, X_j, variable, domain):
+    revise = False
+    for x in domain[X_i]:
+        
+        if (X_j == variable):
+            if (CSP.assignment[variable] == x):
+                domain[X_i].remove(x)
+                revise = True
+        else:
+            if (len(domain[X_j]) == 1 and domain[X_j][0] == x):
+                domain[X_i].remove(x)
+                revise = True
+
+    return revise
