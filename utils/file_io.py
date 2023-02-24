@@ -10,7 +10,7 @@ from csp.sudoku_csp import sudoku_csp
 def gen_mcp(num_points = 10, file_path = 'gcp.json'):
     print("Generating a planar graph with {} points...".format(num_points))
     (x, lines) = gen(num_points=num_points)
-    draw(x, lines)
+    # draw(x, lines)
 
     print("Writing to '{}'...".format(file_path))
     with open(file_path, 'w') as f:
