@@ -32,11 +32,16 @@ def MRV_Method(CSP):
 
 def MRV_Degree_Method(CSP):
 
+    #Getting the MRVs(variables with the fewest remaining legal values)
     MRVs = calculate_MRVs(CSP)
     highestDegree = -sys.maxsize - 1
     highestDegreeVariables = []
 
+    #Scanning through all of the MRVs
     for variable in MRVs:
+
+        #For all of the neighbor variables of an MRV, 
+        #check if the number of unassigned neighbors is freater than the current degree
         all_neighbors = CSP.get_neighbor_variables(variable)
         num_unassigned_neighbors = 0
 
@@ -44,14 +49,16 @@ def MRV_Degree_Method(CSP):
             if (neighbor_variable in CSP.domain.keys()):
                 num_unassigned_neighbors += 1
         
+        #If it's higher, reset the current degree
         if (num_unassigned_neighbors > highestDegree):
             highestDegreeVariables.clear()
             highestDegree = num_unassigned_neighbors
 
+        #If not, keep track of the variable if possible
         if (num_unassigned_neighbors == highestDegree):
             highestDegreeVariables.append(variable)
 
 
-        
-    print()
+    #Grab a random variable from MRVs that have the most
+    #unassigned neighbor variables
     return random.choice(highestDegreeVariables)
