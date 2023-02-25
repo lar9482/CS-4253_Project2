@@ -38,7 +38,7 @@ def test_mcp():
     # gen_mcp(size)
     mcp_csp = load_mcp()
 
-    test = backtrack(mcp_csp, MRV_Method, forward_method)
+    test = backtrack(mcp_csp, MRV_Degree_Method, forward_method)
     print()
     for var in range(0, size):
         print(test.constraint_consistent(var, test.assignment[var]))
@@ -51,7 +51,7 @@ def test_sudoku():
     sudoku_csp = load_sudoku()
 
     
-    result = backtrack(sudoku_csp, MRV_Method, forward_method)
+    result = backtrack(sudoku_csp, MRV_Degree_Method, forward_method)
     for row in range(0, block_size ** 2):
         for col in range(0, block_size ** 2):
             print(result.assignment[(row, col)], end=" ")
@@ -60,11 +60,11 @@ def test_sudoku():
 
 
 def main():
-    test_mcp()
-    # test_sudoku()
+    # test_mcp()
+    test_sudoku()
     # generate_mcp()
     # generate_sudoku()
-    print()
+    print(MRV_Degree_Method.__name__)
     
 
 if __name__=="__main__":

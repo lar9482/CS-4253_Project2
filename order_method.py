@@ -37,10 +37,21 @@ def MRV_Degree_Method(CSP):
     highestDegreeVariables = []
 
     for variable in MRVs:
-        num_neighbors = len(CSP.get_neighbor_variables(variable))
-        if (num_neighbors > highestDegree):
-            highestDegree = num_neighbors
-            highestDegreeVariables.clear()
-        
+        all_neighbors = CSP.get_neighbor_variables(variable)
+        num_unassigned_neighbors = 0
 
-    return highestDegreeVariables
+        for neighbor_variable in all_neighbors:
+            if (neighbor_variable in CSP.domain.keys()):
+                num_unassigned_neighbors += 1
+        
+        if (num_unassigned_neighbors > highestDegree):
+            highestDegreeVariables.clear()
+            highestDegree = num_unassigned_neighbors
+
+        if (num_unassigned_neighbors == highestDegree):
+            highestDegreeVariables.append(variable)
+
+
+        
+    print()
+    return random.choice(highestDegreeVariables)
