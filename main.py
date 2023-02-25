@@ -24,6 +24,8 @@ def generate_sudoku():
     for num in range(1, sudoku_num_instances+1):
         file_name = "sudoku_{0}_{1}".format(sudoku_num_missing, num)
         gen_sudoku(file_name)
+
+
 def test_mcp():
     size = 100
     # gen_mcp(size)
