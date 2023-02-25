@@ -1,4 +1,6 @@
 import json
+import os
+import sys
 from utils.file_io import gen_mcp, load_mcp, gen_sudoku, load_sudoku
 from csp.mcp_csp import mcp_csp, Color
 from order_method import Random_Method, MRV_Method, MRV_Degree_Method
@@ -18,6 +20,7 @@ def generate_mcp():
     for size in mcp_sizes:
         for num in range(1, mcp_num_instances+1):
             file_name = "gcp_{0}_{1}.json".format(size, num)
+            file_name = os.path.join(sys.path[0], 'mcp_data', file_name)
             gen_mcp(size, file_name)
 
 def generate_sudoku():
