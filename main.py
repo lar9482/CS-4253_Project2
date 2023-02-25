@@ -10,8 +10,8 @@ from backtrack import backtrack
 
 from multiprocessing import Process, Manager
 
-mcp_sizes = [10, 50, 100]
-# mcp_sizes = [10]
+# mcp_sizes = [10, 50, 100]
+mcp_sizes = [10]
 mcp_num_instances = 10
 
 sudoku_num_missing = [30, 60, 80]
@@ -59,29 +59,22 @@ def run_mcp(curr_size, curr_instance, order_method, inference_method,
         shared_time_dict[str((order_method.__name__, inference_method.__name__))] = endTime - startTime
     else:
         shared_time_dict[str((order_method.__name__, inference_method.__name__))] += endTime - startTime
-
     lock.release()
     
 
 def test_mcp():
-    # size = 100
-    # # gen_mcp(size)
-    # mcp_csp = load_mcp()
-
-    # test = backtrack(mcp_csp, MRV_Degree_Method, forward_method)
-    # print()
-    # for var in range(0, size):
-    #     print(test.constraint_consistent(var, test.assignment[var]))
-    # print()
 
     #For all of the specified sizes, run a multi-threaded pool test
     for mcp_size in mcp_sizes:
 
+        #Creating a new manager pool
         with Manager() as manager:
             all_processes = []
             lock = manager.Lock()
             shared_time_dict = manager.dict()
 
+            #For every 'mcp_num_instance', order_method, and inference_method combination,
+            #Create a new subprocess
             for num_instance in range(1, mcp_num_instances+1):
                 for order_method in order_methods:
                     for inference_method in inference_methods:
@@ -111,6 +104,7 @@ def test_mcp():
             for order_inference_pair in time_dict.keys():
                 time_dict[order_inference_pair] = time_dict[order_inference_pair] / mcp_num_instances
 
+            #Save runtimes to an excel spreadsheet
             save_mcp_runtimes(time_dict, mcp_size)
 
 
@@ -133,7 +127,6 @@ def main():
     # test_sudoku()
     # generate_mcp()
     # generate_sudoku()
-    print(MRV_Degree_Method.__name__)
     
 
 if __name__=="__main__":

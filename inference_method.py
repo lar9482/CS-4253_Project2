@@ -41,7 +41,7 @@ def ac3_method(CSP, variable):
     domain = copy_domain(CSP.domain)
 
     #Calculate initial arcs
-    #Get arcs between the inputted variables and its unassigned variables
+    #Get arcs between the inputted variable and its unassigned variables
     queue = Queue(maxsize=sys.maxsize)
     for neighbor_variable in CSP.get_neighbor_variables(variable):
         if (neighbor_variable in domain.keys()):
