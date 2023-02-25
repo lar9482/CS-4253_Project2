@@ -5,6 +5,10 @@ from utils.sudoku_generator import make_board
 from csp.mcp_csp import mcp_csp
 from csp.sudoku_csp import sudoku_csp
 
+import pandas as pd
+import os
+import sys
+
 #This function is the starter function from 'gcp_csp', 
 # which will generate a map color problem
 def gen_mcp(num_points = 10, file_path = 'gcp.json'):
@@ -68,4 +72,12 @@ def load_sudoku(file_path = 'sudoku.json'):
             print()
         print()
         return sudoku_csp(board)
+    
+def save_mcp_runtimes(time_dict, size):
+
+    
+    df = pd.DataFrame.from_dict(time_dict.items())
+    file_name = os.path.join(sys.path[0], 'mcp_results', 'mcp_{0}'.format(size)) + '.xlsx'
+    df.to_excel(file_name)
+    print()
 
