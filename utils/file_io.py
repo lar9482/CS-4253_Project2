@@ -51,6 +51,9 @@ def gen_sudoku(num_missing = 50, block_size = 3, output_file = 'sudoku.json'):
 #     board = json.load(f)
 # """.format(output_file))
 
+####################################################################3
+#Custom code below for loading CSPs
+
 def load_mcp(file_path = 'gcp.json'):
     with open('gcp.json', 'r') as f:
         data = json.load(f)

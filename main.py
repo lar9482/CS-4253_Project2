@@ -7,6 +7,8 @@ from order_method import Random_Method, MRV_Method, MRV_Degree_Method
 from inference_method import default_method, forward_method, ac3_method
 from backtrack import backtrack
 
+from multiprocessing import Process, Lock, Manager
+
 mcp_sizes = [10, 50, 100]
 mcp_num_instances = 10
 
@@ -36,7 +38,7 @@ def test_mcp():
     # gen_mcp(size)
     mcp_csp = load_mcp()
 
-    test = backtrack(mcp_csp, MRV_Method, ac3_method)
+    test = backtrack(mcp_csp, MRV_Method, forward_method)
     print()
     for var in range(0, size):
         print(test.constraint_consistent(var, test.assignment[var]))
@@ -58,10 +60,10 @@ def test_sudoku():
 
 
 def main():
-    # test_mcp()
+    test_mcp()
     # test_sudoku()
     # generate_mcp()
-    generate_sudoku()
+    # generate_sudoku()
     print()
     
 
