@@ -17,10 +17,12 @@ mcp_num_instances = 10
 sudoku_num_missing = [30, 60, 80]
 sudoku_num_instances = 100
 
-order_methods = [Random_Method, MRV_Method, MRV_Degree_Method]
-inference_methods = [default_method, forward_method, ac3_method]
-# order_methods = [MRV_Method]
-# inference_methods = [forward_method]
+order_methods = [MRV_Method, MRV_Degree_Method]
+inference_methods = [forward_method, ac3_method]
+
+# order_methods = [Random_Method]
+# inference_methods = [default_method]
+
 
 def generate_mcp():
     for size in mcp_sizes:
