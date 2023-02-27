@@ -59,25 +59,27 @@ def gen_sudoku(num_missing = 50, block_size = 3, output_file = 'sudoku.json'):
 #Custom code below for loading CSPs
 
 def load_mcp(file_path = 'gcp.json'):
-    with open('gcp.json', 'r') as f:
+    with open(file_path, 'r') as f:
         data = json.load(f)
         return mcp_csp(data)
     
 def load_sudoku(file_path = 'sudoku.json'):
-    with open('sudoku.json', 'r') as f:
+    with open(file_path, 'r') as f:
         board = json.load(f)
-        for row in range(0, len(board)):
-            for col in range(0, len(board)):
-                print(board[row][col], end=" ")
-            print()
-        print()
+        # for row in range(0, len(board)):
+        #     for col in range(0, len(board)):
+        #         print(board[row][col], end=" ")
+        #     print()
+        # print()
         return sudoku_csp(board)
     
-def save_mcp_runtimes(time_dict, size):
-
-    
+def save_mcp_runtimes(time_dict, size):    
     df = pd.DataFrame.from_dict(time_dict.items())
     file_name = os.path.join(sys.path[0], 'mcp_results', 'mcp_{0}'.format(size)) + '.xlsx'
     df.to_excel(file_name)
-    print()
 
+
+def save_sudoku_runtimes(time_dict, num_missing):
+    df = pd.DataFrame.from_dict(time_dict.items())
+    file_name = os.path.join(sys.path[0], 'sudoku_results', 'sudoku_{0}'.format(num_missing)) + '.xlsx'
+    df.to_excel(file_name)

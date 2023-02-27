@@ -10,8 +10,8 @@ from backtrack import backtrack
 
 from multiprocessing import Process, Manager
 
-# mcp_sizes = [10, 50, 100]
-mcp_sizes = [10]
+mcp_sizes = [10, 50, 100]
+# mcp_sizes = [10]
 mcp_num_instances = 10
 
 sudoku_num_missing = [30, 60, 80]
@@ -61,6 +61,20 @@ def run_mcp(curr_size, curr_instance, order_method, inference_method,
         shared_time_dict[str((order_method.__name__, inference_method.__name__))] += endTime - startTime
     lock.release()
     
+def run_sudoku(num_missing, num_instance, order_method, inference_method,
+               shared_time_dict):
+    file_name = "sudoku_{0}_{1}.json".format(num_missing, num_instance)
+    file_name = os.path.join(sys.path[0], 'sudoku_data', file_name)
+    sudoku_csp = load_sudoku(file_name)
+
+    startTime = time.time()
+    backtrack(sudoku_csp, order_method, inference_method)
+    endTime = time.time()
+
+    if (not str((order_method.__name__, inference_method.__name__)) in shared_time_dict):
+        shared_time_dict[str((order_method.__name__, inference_method.__name__))] = endTime - startTime
+    else:
+        shared_time_dict[str((order_method.__name__, inference_method.__name__))] += endTime - startTime
 
 def test_mcp():
 
@@ -109,22 +123,33 @@ def test_mcp():
 
 
 def test_sudoku():
-    block_size = 3
-    # gen_sudoku(81, block_size)
-    sudoku_csp = load_sudoku()
+    # block_size = 3
+    # # gen_sudoku(81, block_size)
+    # sudoku_csp = load_sudoku()
 
     
-    result = backtrack(sudoku_csp, MRV_Degree_Method, forward_method)
-    for row in range(0, block_size ** 2):
-        for col in range(0, block_size ** 2):
-            print(result.assignment[(row, col)], end=" ")
-        print()
-    print()
+    # result = backtrack(sudoku_csp, MRV_Degree_Method, forward_method)
+    # for row in range(0, block_size ** 2):
+    #     for col in range(0, block_size ** 2):
+    #         print(result.assignment[(row, col)], end=" ")
+    #     print()
+    # print()
+
+    for num_missing in sudoku_num_missing:
+        
+        shared_time_dict = {}
+        for num_instance in range(1, sudoku_num_instances+1):
+            for order_method in order_methods:
+                for inference_method in inference_methods:
+                    run_sudoku(num_missing, num_instance, order_method, inference_method, shared_time_dict)
+
+        
+
 
 
 def main():
-    test_mcp()
-    # test_sudoku()
+    # test_mcp()
+    test_sudoku()
     # generate_mcp()
     # generate_sudoku()
     
