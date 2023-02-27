@@ -14,7 +14,7 @@ mcp_sizes = [10, 50, 100]
 # mcp_sizes = [10]
 mcp_num_instances = 10
 
-sudoku_num_missing = [30, 60, 80]
+sudoku_num_missing = [10, 20, 30, 40]
 # sudoku_num_missing = [30, 60, 80]
 sudoku_num_instances = 100
 
@@ -211,10 +211,10 @@ def test_sudoku():
 
 
 def main():
-    test_mcp()
-    test_sudoku()
+    # test_mcp()
+    # test_sudoku()
     # generate_mcp()
-    # generate_sudoku()
+    generate_sudoku()
     
 
 if __name__=="__main__":
