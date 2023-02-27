@@ -2,7 +2,7 @@ import json
 import os
 import sys
 import time
-from utils.file_io import gen_mcp, load_mcp, gen_sudoku, load_sudoku, save_mcp_runtimes
+from utils.file_io import gen_mcp, load_mcp, gen_sudoku, load_sudoku, save_mcp_runtimes, save_sudoku_runtimes
 from csp.mcp_csp import mcp_csp, Color
 from order_method import Random_Method, MRV_Method, MRV_Degree_Method
 from inference_method import default_method, forward_method, ac3_method
@@ -143,6 +143,11 @@ def test_sudoku():
                 for inference_method in inference_methods:
                     run_sudoku(num_missing, num_instance, order_method, inference_method, shared_time_dict)
 
+        for order_inference_pair in shared_time_dict.keys():
+            shared_time_dict[order_inference_pair] = shared_time_dict[order_inference_pair] / mcp_num_instances
+
+        save_sudoku_runtimes(shared_time_dict, num_missing)
+        
         
 
 
