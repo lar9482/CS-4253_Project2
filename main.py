@@ -212,9 +212,9 @@ def test_sudoku():
 
 def main():
     # test_mcp()
-    # test_sudoku()
+    test_sudoku()
     # generate_mcp()
-    generate_sudoku()
+    # generate_sudoku()
     
 
 if __name__=="__main__":
