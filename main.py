@@ -15,6 +15,7 @@ mcp_sizes = [10, 50, 100]
 mcp_num_instances = 10
 
 sudoku_num_missing = [30, 60, 80]
+# sudoku_num_missing = [30, 60, 80]
 sudoku_num_instances = 100
 
 order_methods = [MRV_Method, MRV_Degree_Method]
@@ -62,7 +63,7 @@ def run_mcp(curr_size, curr_instance, order_method, inference_method,
     lock.release()
     
 def run_sudoku(num_missing, num_instance, order_method, inference_method,
-               shared_time_dict):
+               shared_time_dict, lock):
     file_name = "sudoku_{0}_{1}.json".format(num_missing, num_instance)
     file_name = os.path.join(sys.path[0], 'sudoku_data', file_name)
     sudoku_csp = load_sudoku(file_name)
@@ -71,10 +72,12 @@ def run_sudoku(num_missing, num_instance, order_method, inference_method,
     backtrack(sudoku_csp, order_method, inference_method)
     endTime = time.time()
 
+    lock.acquire()
     if (not str((order_method.__name__, inference_method.__name__)) in shared_time_dict):
         shared_time_dict[str((order_method.__name__, inference_method.__name__))] = endTime - startTime
     else:
         shared_time_dict[str((order_method.__name__, inference_method.__name__))] += endTime - startTime
+    lock.release()
 
 def test_mcp():
 
@@ -136,24 +139,79 @@ def test_sudoku():
     # print()
 
     for num_missing in sudoku_num_missing:
+
+        chunk_size = 20
+        curr_num_instance = chunk_size
+        total_dict = {}
+        while(curr_num_instance <= sudoku_num_instances):
+            
+            with Manager() as manager:
+                all_processes = []
+                lock = manager.Lock()
+                shared_time_dict = manager.dict()
+
+                for num_instance in range(curr_num_instance-chunk_size+1, curr_num_instance+1):
+                    for order_method in order_methods:
+                        for inference_method in inference_methods:
+                            # run_sudoku(num_missing, num_instance, order_method, inference_method, shared_time_dict)
+                            process = Process(target=run_sudoku, args=(
+                                num_missing,
+                                num_instance,
+                                order_method,
+                                inference_method,
+                                shared_time_dict,
+                                lock
+                            ))
+
+                            all_processes.append(process)
+                
+                #Start all of the subprocesses
+                for process in all_processes:
+                    process.start()
+
+                #Wait for all subprocesses to finish before continuing
+                for process in all_processes:
+                    process.join()
+
+                curr_dict = dict(shared_time_dict)
+
+                for order_inference_pair in curr_dict.keys():
+                    if (not order_inference_pair in total_dict):
+                        total_dict[order_inference_pair] = curr_dict[order_inference_pair]
+                    else:
+                        total_dict[order_inference_pair] += curr_dict[order_inference_pair]
+
+            curr_num_instance += chunk_size
         
-        shared_time_dict = {}
-        for num_instance in range(1, sudoku_num_instances+1):
-            for order_method in order_methods:
-                for inference_method in inference_methods:
-                    run_sudoku(num_missing, num_instance, order_method, inference_method, shared_time_dict)
+        for order_inference_pair in total_dict.keys():
+            total_dict[order_inference_pair] = total_dict[order_inference_pair] / sudoku_num_instances
 
-        for order_inference_pair in shared_time_dict.keys():
-            shared_time_dict[order_inference_pair] = shared_time_dict[order_inference_pair] / mcp_num_instances
+        save_sudoku_runtimes(total_dict, num_missing)
 
-        save_sudoku_runtimes(shared_time_dict, num_missing)
+    
+
+            
+        # shared_time_dict = {}
+        # for num_instance in range(1, sudoku_num_instances+1):
+
+        #     if (num_instance % 20 == 0):
+        #         print()
+
+        #     for order_method in order_methods:
+        #         for inference_method in inference_methods:
+        #             run_sudoku(num_missing, num_instance, order_method, inference_method, shared_time_dict)
+
+        # for order_inference_pair in shared_time_dict.keys():
+        #     shared_time_dict[order_inference_pair] = shared_time_dict[order_inference_pair] / mcp_num_instances
+
+        # save_sudoku_runtimes(shared_time_dict, num_missing)
         
         
 
 
 
 def main():
-    # test_mcp()
+    test_mcp()
     test_sudoku()
     # generate_mcp()
     # generate_sudoku()
