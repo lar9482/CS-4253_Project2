@@ -10,29 +10,15 @@ from backtrack import backtrack
 
 from multiprocessing import Process, Manager
 
-mcp_sizes = [10, 50, 100]
-# mcp_sizes = [10]
-mcp_num_instances = 10
 
-sudoku_num_missing = [10, 20, 30, 40]
-# sudoku_num_missing = [30, 60, 80]
-sudoku_num_instances = 100
-
-order_methods = [MRV_Method, MRV_Degree_Method]
-inference_methods = [forward_method, ac3_method]
-
-# order_methods = [Random_Method]
-# inference_methods = [default_method]
-
-
-def generate_mcp():
+def generate_mcp(mcp_sizes, mcp_num_instances):
     for size in mcp_sizes:
         for num in range(1, mcp_num_instances+1):
             file_name = "gcp_{0}_{1}.json".format(size, num)
             file_name = os.path.join(sys.path[0], 'mcp_data', file_name)
             gen_mcp(size, file_name)
 
-def generate_sudoku():
+def generate_sudoku(sudoku_num_missing, sudoku_num_instances):
     for num_missing in sudoku_num_missing:
         for num in range(1, sudoku_num_instances+1):
             file_name = "sudoku_{0}_{1}.json".format(num_missing, num)
@@ -79,7 +65,7 @@ def run_sudoku(num_missing, num_instance, order_method, inference_method,
         shared_time_dict[str((order_method.__name__, inference_method.__name__))] += endTime - startTime
     lock.release()
 
-def test_mcp():
+def test_mcp(mcp_sizes, mcp_num_instances, order_methods, inference_methods):
 
     #For all of the specified sizes, run a multi-threaded pool test
     for mcp_size in mcp_sizes:
@@ -125,7 +111,7 @@ def test_mcp():
             save_mcp_runtimes(time_dict, mcp_size)
 
 
-def test_sudoku():
+def test_sudoku(sudoku_num_missing, sudoku_num_instances, order_methods, inference_methods):
     # block_size = 3
     # # gen_sudoku(81, block_size)
     # sudoku_csp = load_sudoku()
@@ -188,33 +174,25 @@ def test_sudoku():
 
         save_sudoku_runtimes(total_dict, num_missing)
 
-    
-
-            
-        # shared_time_dict = {}
-        # for num_instance in range(1, sudoku_num_instances+1):
-
-        #     if (num_instance % 20 == 0):
-        #         print()
-
-        #     for order_method in order_methods:
-        #         for inference_method in inference_methods:
-        #             run_sudoku(num_missing, num_instance, order_method, inference_method, shared_time_dict)
-
-        # for order_inference_pair in shared_time_dict.keys():
-        #     shared_time_dict[order_inference_pair] = shared_time_dict[order_inference_pair] / mcp_num_instances
-
-        # save_sudoku_runtimes(shared_time_dict, num_missing)
-        
-        
-
-
-
 def main():
-    # test_mcp()
-    test_sudoku()
-    # generate_mcp()
-    # generate_sudoku()
+
+    #MCP parameters
+    mcp_sizes = [10, 20, 30]
+    mcp_num_instances = 10
+
+    #Sudoku parameters
+    sudoku_num_missing = [10, 20, 30, 40]
+    sudoku_num_instances = 100
+
+    #The types of heuristics that are available
+    order_methods = [MRV_Method, MRV_Degree_Method]
+    inference_methods = [forward_method, ac3_method]
+
+    
+    # generate_mcp(mcp_sizes, mcp_num_instances)
+    # generate_sudoku(sudoku_num_missing, sudoku_num_instances)
+    test_mcp(mcp_sizes, mcp_num_instances, order_methods, inference_methods)
+    # test_sudoku(sudoku_num_missing, sudoku_num_instances, order_methods, inference_methods)
     
 
 if __name__=="__main__":
