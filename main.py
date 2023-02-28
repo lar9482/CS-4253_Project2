@@ -1,9 +1,7 @@
-import json
 import os
 import sys
 import time
 from utils.file_io import gen_mcp, load_mcp, gen_sudoku, load_sudoku, save_mcp_runtimes, save_sudoku_runtimes
-from csp.mcp_csp import mcp_csp, Color
 from order_method import Random_Method, MRV_Method, MRV_Degree_Method
 from inference_method import default_method, forward_method, ac3_method
 from backtrack import backtrack
@@ -37,7 +35,7 @@ def run_mcp(curr_size, curr_instance, order_method, inference_method,
 
     #Performing the backtracking
     startTime = time.time()
-    backtrack(mcp_csp, order_method, inference_method)
+    test= backtrack(mcp_csp, order_method, inference_method)
     endTime = time.time()
     
     #Store the total runtime in the shared dictionary
@@ -177,11 +175,11 @@ def test_sudoku(sudoku_num_missing, sudoku_num_instances, order_methods, inferen
 def main():
 
     #MCP parameters
-    mcp_sizes = [10, 20, 30]
+    mcp_sizes = [10, 50, 100]
     mcp_num_instances = 10
 
     #Sudoku parameters
-    sudoku_num_missing = [10, 20, 30, 40]
+    sudoku_num_missing = [30, 40]
     sudoku_num_instances = 100
 
     #The types of heuristics that are available
@@ -191,8 +189,8 @@ def main():
     
     # generate_mcp(mcp_sizes, mcp_num_instances)
     # generate_sudoku(sudoku_num_missing, sudoku_num_instances)
-    test_mcp(mcp_sizes, mcp_num_instances, order_methods, inference_methods)
-    # test_sudoku(sudoku_num_missing, sudoku_num_instances, order_methods, inference_methods)
+    # test_mcp(mcp_sizes, mcp_num_instances, order_methods, inference_methods)
+    test_sudoku(sudoku_num_missing, sudoku_num_instances, order_methods, inference_methods)
     
 
 if __name__=="__main__":

@@ -12,7 +12,7 @@ def backtrack(CSP = mcp_csp, Order_Method = Random_Method, Inference_Method = de
     #Getting an unassigned variable based on the requested ordering heuristic
     variable = Order_Method(CSP)
 
-    print('%s working on variable %s' % (str(os.getpid()), str(variable)))
+    print('%s working on variable %s' % (str((Order_Method.__name__, Inference_Method.__name__)), str(variable)))
 
     #Scanning through all of the possible domains of the selected variable
     for domain_value in CSP.domain[variable]:

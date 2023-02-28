@@ -6,6 +6,8 @@ class Color(Enum):
     G = 2
     B = 3
     Y = 4
+    A = 5
+    C = 6
 
 class mcp_csp(CSP):
     def __init__(self, data):
@@ -20,7 +22,7 @@ class mcp_csp(CSP):
         #Scanning through all of the initial datapoints
         for variable in data['points']:
             #Set the domain of all of the variables to all of the four colors
-            initial_domain[int(variable)] = [Color.R, Color.G, Color.B, Color.Y]
+            initial_domain[int(variable)] = [Color.R, Color.G, Color.B, Color.Y, Color.A, Color.C]
             
         return (data['num_points'], initial_assignments, initial_domain)
     
