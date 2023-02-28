@@ -13,7 +13,6 @@ def copy_domain(domain):
     return copy_domain
 
 def default_method(CSP, variable):    
-
     #Return an unaltered domain
     return CSP.domain
 
