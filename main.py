@@ -185,8 +185,8 @@ def main():
     sudoku_num_instances = 100
 
     #The types of heuristics that are available
-    order_methods = [MRV_Method, MRV_Degree_Method]
-    inference_methods = [forward_method, ac3_method]
+    order_methods = [Random_Method, MRV_Method, MRV_Degree_Method]
+    inference_methods = [default_method, forward_method, ac3_method]
 
     
     # generate_mcp(mcp_sizes, mcp_num_instances)
