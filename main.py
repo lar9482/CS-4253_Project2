@@ -48,14 +48,18 @@ def run_mcp(curr_size, curr_instance, order_method, inference_method,
     
 def run_sudoku(num_missing, num_instance, order_method, inference_method,
                shared_time_dict, lock):
+    
+    #Formatting the input .json filepath based on the current number of cells missing and instance
     file_name = "sudoku_{0}_{1}.json".format(num_missing, num_instance)
     file_name = os.path.join(sys.path[0], 'sudoku_data', file_name)
     sudoku_csp = load_sudoku(file_name)
 
+    #Time the backtracking algorithm
     startTime = time.time()
     backtrack(sudoku_csp, order_method, inference_method)
     endTime = time.time()
 
+    #Store the total runtime in the shared dictionary
     lock.acquire()
     if (not str((order_method.__name__, inference_method.__name__)) in shared_time_dict):
         shared_time_dict[str((order_method.__name__, inference_method.__name__))] = endTime - startTime
@@ -110,23 +114,16 @@ def test_mcp(mcp_sizes, mcp_num_instances, order_methods, inference_methods):
 
 
 def test_sudoku(sudoku_num_missing, sudoku_num_instances, order_methods, inference_methods):
-    # block_size = 3
-    # # gen_sudoku(81, block_size)
-    # sudoku_csp = load_sudoku()
 
-    
-    # result = backtrack(sudoku_csp, MRV_Degree_Method, forward_method)
-    # for row in range(0, block_size ** 2):
-    #     for col in range(0, block_size ** 2):
-    #         print(result.assignment[(row, col)], end=" ")
-    #     print()
-    # print()
-
+    #Scanning through all possible missing options
     for num_missing in sudoku_num_missing:
 
+        #Setting a chunk size for the number of sudoku puzzles to process at a time
         chunk_size = 20
         curr_num_instance = chunk_size
         total_dict = {}
+
+        #For every 'chunk_size' block, process that many sudoku puzzles
         while(curr_num_instance <= sudoku_num_instances):
             
             with Manager() as manager:
@@ -134,6 +131,8 @@ def test_sudoku(sudoku_num_missing, sudoku_num_instances, order_methods, inferen
                 lock = manager.Lock()
                 shared_time_dict = manager.dict()
 
+                #For every num_instance, order_method, and inference_methodd combination
+                #Run a sudoku solver with those parameters
                 for num_instance in range(curr_num_instance-chunk_size+1, curr_num_instance+1):
                     for order_method in order_methods:
                         for inference_method in inference_methods:
@@ -159,6 +158,7 @@ def test_sudoku(sudoku_num_missing, sudoku_num_instances, order_methods, inferen
 
                 curr_dict = dict(shared_time_dict)
 
+                #Collect the results into the total dictionary
                 for order_inference_pair in curr_dict.keys():
                     if (not order_inference_pair in total_dict):
                         total_dict[order_inference_pair] = curr_dict[order_inference_pair]
@@ -167,9 +167,11 @@ def test_sudoku(sudoku_num_missing, sudoku_num_instances, order_methods, inferen
 
             curr_num_instance += chunk_size
         
+        #Average out the total dictionary
         for order_inference_pair in total_dict.keys():
             total_dict[order_inference_pair] = total_dict[order_inference_pair] / sudoku_num_instances
 
+        #Save the total dictionary to a spreadsheet
         save_sudoku_runtimes(total_dict, num_missing)
 
 def main():
