@@ -181,7 +181,7 @@ def main():
     mcp_num_instances = 10
 
     #Sudoku parameters
-    sudoku_num_missing = [30, 40]
+    sudoku_num_missing = [10, 20, 30]
     sudoku_num_instances = 100
 
     #The types of heuristics that are available

@@ -14,6 +14,7 @@ def copy_domain(domain):
 
 def default_method(CSP, variable):    
 
+    #Return an unaltered domain
     return CSP.domain
 
 def forward_method(CSP, variable):

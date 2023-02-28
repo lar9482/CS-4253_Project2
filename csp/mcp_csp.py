@@ -21,7 +21,7 @@ class mcp_csp(CSP):
 
         #Scanning through all of the initial datapoints
         for variable in data['points']:
-            #Set the domain of all of the variables to all of the four colors
+            #Set the domain of all of the variables to all of the six colors
             initial_domain[int(variable)] = [Color.R, Color.G, Color.B, Color.Y, Color.A, Color.C]
             
         return (data['num_points'], initial_assignments, initial_domain)
