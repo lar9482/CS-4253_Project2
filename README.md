@@ -1,4 +1,4 @@
-# 2nd project CS 4253-01
+# 2nd project from CS 4253-01
 Introduction to Artificial Intelligence.
 
 Taught by Dr. Sandip Sen at the University of Tulsa in SP 23.
