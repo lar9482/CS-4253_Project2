@@ -36,8 +36,11 @@ def run_mcp(curr_size, curr_instance, order_method, inference_method,
     #Performing the backtracking
     startTime = time.time()
     result = backtrack(mcp_csp, order_method, inference_method)
-    assert result != "failure"
     endTime = time.time()
+
+    #Testing if the backtracking algorithm actually solved mcp
+    assert result != "failure"
+    assert result.is_complete()
     
     #Store the total runtime in the shared dictionary
     lock.acquire()
@@ -58,8 +61,11 @@ def run_sudoku(num_missing, num_instance, order_method, inference_method,
     #Time the backtracking algorithm
     startTime = time.time()
     result = backtrack(sudoku_csp, order_method, inference_method)
-    assert result != "failure"
     endTime = time.time()
+
+    #Testing if the backtracking algorithm actually solved the sudoku board
+    assert result != "failure"
+    assert result.is_complete()
 
     #Store the total runtime in the shared dictionary
     lock.acquire()
@@ -191,8 +197,8 @@ def main():
     inference_methods = [default_method, forward_method, ac3_method]
 
     
-    generate_mcp(mcp_sizes, mcp_num_instances)
-    generate_sudoku(sudoku_num_missing, sudoku_num_instances)
+    # generate_mcp(mcp_sizes, mcp_num_instances)
+    # generate_sudoku(sudoku_num_missing, sudoku_num_instances)
     test_mcp(mcp_sizes, mcp_num_instances, order_methods, inference_methods)
     test_sudoku(sudoku_num_missing, sudoku_num_instances, order_methods, inference_methods)
     
