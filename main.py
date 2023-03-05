@@ -8,7 +8,6 @@ from backtrack import backtrack
 
 from multiprocessing import Process, Manager
 
-
 def generate_mcp(mcp_sizes, mcp_num_instances):
     for size in mcp_sizes:
         for num in range(1, mcp_num_instances+1):
@@ -197,8 +196,8 @@ def main():
     inference_methods = [default_method, forward_method, ac3_method]
 
     
-    # generate_mcp(mcp_sizes, mcp_num_instances)
-    # generate_sudoku(sudoku_num_missing, sudoku_num_instances)
+    generate_mcp(mcp_sizes, mcp_num_instances)
+    generate_sudoku(sudoku_num_missing, sudoku_num_instances)
     test_mcp(mcp_sizes, mcp_num_instances, order_methods, inference_methods)
     test_sudoku(sudoku_num_missing, sudoku_num_instances, order_methods, inference_methods)
     
